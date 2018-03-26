@@ -1,5 +1,7 @@
-var express = require("express");
-var router = express.Router();
+const RouterManager = function() { };
 
+RouterManager.attach = function(app){
+  app.use('/' , require('./admin'));
+};
 
-module.exports = router;
+module.exports = RouterManager;

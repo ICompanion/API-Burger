@@ -18,10 +18,11 @@
   },
   "homepage": "https://github.com/ICompanion/API-Burger#readme",
   "dependencies": {
+    "async": "^2.6.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.2.0",
-    "morgan": "^1.9.0",
     "npm": "^5.8.0",
     "pg": "^7.4.1"
   }
