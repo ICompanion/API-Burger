@@ -1,7 +1,9 @@
 const pg = require('pg');
-const connection = 'postgresql://lab:Adminpwd@localhost:5000/Burger';
+const config = require('./config');
+const connection = config.database;
 const db = function(){ };
 var client;
+
 
 db.start = function(){
   client  = new pg.Client(connection);

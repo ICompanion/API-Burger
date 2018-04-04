@@ -21,8 +21,11 @@
     "async": "^2.6.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "cookies": "^0.7.1",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.2.0",
+    "morgan": "^1.9.0",
     "npm": "^5.8.0",
     "pg": "^7.4.1"
   }
