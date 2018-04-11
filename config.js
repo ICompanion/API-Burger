@@ -1,4 +1,4 @@
 module.exports = {
   'secret' : 'thisisthesecretkey',
-  'database' : 'postgresql://lab:Adminpwd@localhost:5000/Burger'
+  'database' : 'postgresql://lab:adminpwd@localhost:5000/Burger'
 }
