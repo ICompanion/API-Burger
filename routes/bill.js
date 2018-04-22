@@ -2,15 +2,15 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const controllers = require('../controllers');
-const menuController = controllers.menu;
+const billController = controllers.bill;
 const authenticateController = controllers.authenticate;
 
-const menuRouter = express.Router();
+const billRouter = express.Router();
 
-menuRouter.use(bodyParser.json());
+billRouter.use(bodyParser.json());
 
-menuRouter.get('/all', function(req, res){
-  menuController.getAll(function(data){
+billRouter.get('/all', function(req, res){
+  billController.getAll(function(data){
     data = JSON.parse(data);
     if(data.length !== 0){
 
@@ -22,22 +22,10 @@ menuRouter.get('/all', function(req, res){
   });
 });
 
-menuRouter.get('/name/:name', function(req, res){
-  menuController.getByName(req.params.name, function(data){
-    data = JSON.parse(data);
-    if(data.length !== 0){
-
-      res.json(data).status(200).end();
-      return;
-    }
-    res.status(404).end();
-  });
-});
-
-menuRouter.get('/:id', function(req, res){
+billRouter.get('/:id', function(req, res){
   if(Number.parseInt(req.params.id))
   {
-    menuController.getById(req.params.id, function(data){
+    billController.getById(req.params.id, function(data){
       data = JSON.parse(data);
       if(data.length !== 0){
 
@@ -45,22 +33,21 @@ menuRouter.get('/:id', function(req, res){
         return;
       }
       res.status(404).end();
-      return;
     });
+    return;
   }
   res.json("parameter is not an integer").status(500).end();
 });
 
 
-menuRouter.use(function(req, res, next) {
+billRouter.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
   authenticateController.check(req, res);
   next();
 });
 
-menuRouter.post('/create', function(req, res){
-  menuController.create([req.body.id,req.body.name, req.body.price, req.body.active,
-                            req.body.promotion_id],
+billRouter.post('/create', function(req, res){
+  billController.create([req.body.id, req.body.price, req.body.status],
                             function(state){
     if(state === true)
     {
@@ -72,8 +59,8 @@ menuRouter.post('/create', function(req, res){
   });
 });
 
-menuRouter.post('/add/product', function(req, res){
-  menuController.addProduct([req.body.menu_id, req.body.product_id],
+billRouter.post('/add/product', function(req, res){
+  billController.addProduct([req.body.bill_id, req.body.product_id],
                             function(state){
     if(state === true)
     {
@@ -85,7 +72,20 @@ menuRouter.post('/add/product', function(req, res){
   });
 });
 
-menuRouter.put('/:id', function(req, res){
+billRouter.post('/add/menu', function(req, res){
+  billController.addMenu([req.body.bill_id, req.body.menu_id],
+                            function(state){
+    if(state === true)
+    {
+      res.json(state).status(200).end();
+      return;
+    }
+
+    res.status(500).end();
+  });
+});
+
+billRouter.put('/:id', function(req, res){
   if(Number.parseInt(req.params.id))
   {
     var values = []
@@ -95,7 +95,7 @@ menuRouter.put('/:id', function(req, res){
       values.push(req.body[key]);
       columns.push(key);
     }
-    menuController.update(columns, values, req.params.id, function(state){
+    billController.update(columns, values, req.params.id, function(state){
       if(state === true)
     {
       res.json(state).status(200).end();
@@ -108,26 +108,10 @@ menuRouter.put('/:id', function(req, res){
   res.json("parameter is not an integer").status(500).end();
 });
 
-menuRouter.delete('/:menu_id/remove/product//:product_id', function(req, res){
-  if(Number.parseInt(req.params.menu_id) && Number.parseInt(req.params.product_id))
-  {
-  menuController.removeProduct([req.params.menu_id, req.params.product_id], function(state){
-    if(state === true)
-    {
-      res.json(state).status(200).end();
-      return;
-    }
-    res.status(500).end();
-    return;
-  });
-}
-res.json("parameters must be integers").status(500).end();
-});
-
-menuRouter.delete('/:id', function(req, res){
+billRouter.delete('/:id', function(req, res){
   if(Number.parseInt(req.params.id))
   {
-    menuController.deleteById(req.params.id, function(state){
+    billController.deleteById(req.params.id, function(state){
       if(state === true)
       {
         res.json(state).status(200).end();
@@ -140,4 +124,4 @@ menuRouter.delete('/:id', function(req, res){
   res.json("parameter is not an integer").status(500).end();
 });
 
-module.exports = menuRouter;
+module.exports = billRouter;

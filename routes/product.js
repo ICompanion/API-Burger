@@ -11,22 +11,23 @@ productRouter.use(bodyParser.json());
 
 productRouter.get('/all', function(req, res){
   productController.getAll(function(data){
-    if(data != undefined)
-    {
+    data = JSON.parse(data);
+    if(data.length !== 0){
+
       res.json(data).status(200).end();
       return;
     }
 
     res.status(404).end();
-    return;
   });
 });
 
 
 productRouter.get('/name/:name', function(req, res){
   productController.getByName(req.params.name, function(data){
-    if(data != undefined)
-    {
+    data = JSON.parse(data);
+    if(data.length !== 0){
+
       res.json(data).status(200).end();
       return;
     }
@@ -36,26 +37,29 @@ productRouter.get('/name/:name', function(req, res){
 
 
 productRouter.get('/:id', function(req, res){
-  if(Number.isInteger(req.params.id))
+  if(Number.parseInt(req.params.id))
   {
     productController.getById(req.params.id, function(data){
-      if(data != undefined)
-      {
+      data = JSON.parse(data);
+      if(data.length !== 0){
+
         res.json(data).status(200).end();
         return;
       }
 
       res.status(404).end();
-    });
-  }
-  res.status(404).end();
+      return;
+      });
+    }
+    res.json("parameter is not an integer").status(500).end();
 });
 
 
 productRouter.get('/vegan', function(req, res){
   productController.getVegan(function(data){
-    if(data != undefined)
-    {
+    data = JSON.parse(data);
+    if(data.length !== 0){
+
       res.json(data).status(200).end();
       return;
     }
@@ -72,13 +76,9 @@ productRouter.use(function(req, res, next) {
 
 
 productRouter.post('/create', function(req, res){
-  const product = new Product(req.body.name, req.body.type, req.body.price,
+  productController.create([req.body.name, req.body.type, req.body.price,
                             req.body.calories, req.body.veg,
-                            req.body.disponibility, req.body.promotion);
-
-  productController.create([product.name, product.type, product.price,
-                            product.calories, product.veg,
-                            product.disponibility, product.promotion],
+                            req.body.disponibility, req.body.promotion],
                             function(state){
     if(state === true)
     {
@@ -90,19 +90,23 @@ productRouter.post('/create', function(req, res){
   });
 });
 
-productRouter.delete('/delete/:id', function(req, res){
-  productController.deleteById(req.params.id, function(state){
-    if(state === true)
-    {
-      res.json(state).status(200).end();
-      return;
-    }
+productRouter.delete('/:id', function(req, res){
+  if(Number.parseInt(req.params.id))
+  {
+    productController.deleteById(req.params.id, function(state){
+      if(state === true)
+      {
+        res.json(state).status(200).end();
+        return;
+      }
 
-    res.status(500).end();
-  });
+      res.status(500).end();
+    });
+  }
+  res.json("parameter is not an integer").status(500).end();
 });
 
-productRouter.delete('/delete/name/:name', function(req, res){
+productRouter.delete('/name/:name', function(req, res){
   productController.deleteByName(req.params.name, function(state){
     if(state === true)
     {
@@ -114,5 +118,27 @@ productRouter.delete('/delete/name/:name', function(req, res){
   });
 });
 
+productRouter.put('/:id', function(req, res){
+  if(Number.parseInt(req.params.id))
+  {
+    var values = []
+    var columns = []
+
+    for(var key in req.body){
+      values.push(req.body[key]);
+      columns.push(key);
+    }
+    productController.update(columns, values, req.params.id, function(state){
+      if(state === true)
+    {
+      res.json(state).status(200).end();
+      return;
+    }
+    res.status(500).end();
+    return;
+    });
+  }
+  res.json("parameter is not an integer").status(500).end();
+});
 
 module.exports = productRouter;

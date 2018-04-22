@@ -75,5 +75,22 @@ productController.deleteByName = function(values, callback){
   });
 };
 
+productController.update = function(columns, values, id, callback) {
+  var text ='update product set ';
+  var i = 1;
+
+  for(var column of columns)
+  {
+    text += column + ' = $' + i +', ';
+    i++;
+  }
+  text = text.slice(0,-2) + ' where id = ' + id;
+
+  bddController.start();
+  bddController.executeQuery(text, values, function(result, state){
+    bddController.stop();
+    callback(state);
+  });
+};
 
 module.exports = productController;

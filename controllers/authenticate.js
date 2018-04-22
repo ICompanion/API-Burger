@@ -8,6 +8,11 @@ authenticateController.signIn = function(values, callback){
   db.start();
   db.executeQuery('select * from admin where name = $1 and password = $2', values, function(data, state){
     db.stop();
+    data = JSON.parse(data);
+    if(data.length === 0)
+    {
+      state = false;
+    }
     callback(state);
   });
 };
