@@ -3,5 +3,6 @@ module.exports = {
   product : require('./product'),
   menu : require('./menu'),
   bill : require('./bill'),
-  bdd: require('./db')
+  bdd: require('./db'),
+  promotion : require('./promotion')
 }

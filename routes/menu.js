@@ -48,14 +48,23 @@ menuRouter.get('/:id', function(req, res){
       return;
     });
   }
-  res.json("parameter is not an integer").status(500).end();
+  else {
+    res.json("parameter is not an integer").status(500).end();
+  }
 });
 
 
 menuRouter.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
-  authenticateController.check(req, res);
-  next();
+  authenticateController.check(req, res, function(status){
+    if(status === false){
+      return;
+
+    }
+    else {
+      next();
+    }
+  });
 });
 
 menuRouter.post('/create', function(req, res){
@@ -105,7 +114,9 @@ menuRouter.put('/:id', function(req, res){
     return;
     });
   }
-  res.json("parameter is not an integer").status(500).end();
+  else {
+    res.json("parameter is not an integer").status(500).end();
+  }
 });
 
 menuRouter.delete('/:menu_id/remove/product//:product_id', function(req, res){
@@ -120,8 +131,10 @@ menuRouter.delete('/:menu_id/remove/product//:product_id', function(req, res){
     res.status(500).end();
     return;
   });
-}
-res.json("parameters must be integers").status(500).end();
+  }
+  else {
+    res.json("parameters are not all integers").status(500).end();
+  }
 });
 
 menuRouter.delete('/:id', function(req, res){
@@ -137,7 +150,9 @@ menuRouter.delete('/:id', function(req, res){
       return;
     });
   }
-  res.json("parameter is not an integer").status(500).end();
+  else {
+    res.json("parameter is not an integer").status(500).end();
+  }
 });
 
 module.exports = menuRouter;

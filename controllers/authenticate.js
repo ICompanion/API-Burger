@@ -20,6 +20,7 @@ authenticateController.signIn = function(values, callback){
 authenticateController.connect = function(req, res, result){
   if (result === false) {
     res.json({ success: false, message: 'Authentication failed. User not found.' }).status(404).end();
+    return false;
   }
   else if (result === true) {
   // if user is found and password is right
@@ -40,10 +41,11 @@ authenticateController.connect = function(req, res, result){
       })
       .status(200)
       .end();
+
   }
 };
 
-authenticateController.check = function(req, res){
+authenticateController.check = function(req, res, callback){
   var token = req.cookies['x-access-token'];
   // decode token
   if (token) {
@@ -51,10 +53,14 @@ authenticateController.check = function(req, res){
     jwt.verify(token, req.app.get('secret'), function(err, decoded) {
       if (err) {
         res.json({ success: false, message: 'Failed to authenticate token.' }).status(400).end();
+        callback(false);
+        return;
       }
       else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;
+        callback(true);
+        return;
       }
     });
   }
@@ -65,6 +71,8 @@ authenticateController.check = function(req, res){
         success: false,
         message: 'No token provided.'
     }).status(403).end();
+    callback(false);
+    return;
   }
 };
 

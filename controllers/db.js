@@ -29,7 +29,8 @@ bddController.executeQuery = function(text, values, callback){
     client.query(query, function(err, res){
       if(err){
         console.log('Erreur lors de l\'execution de la requête: '+err);
-        return state;
+        callback(undefined, state);
+        return;
       }
 
       console.log('Requête executée');

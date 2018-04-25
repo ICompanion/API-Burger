@@ -51,7 +51,9 @@ productRouter.get('/:id', function(req, res){
       return;
       });
     }
-    res.json("parameter is not an integer").status(500).end();
+    else {
+      res.json("parameter is not an integer").status(500).end();
+    }
 });
 
 
@@ -70,8 +72,15 @@ productRouter.get('/vegan', function(req, res){
 
 productRouter.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
-  authenticateController.check(req, res);
-  next();
+  authenticateController.check(req, res, function(status){
+    if(status === false){
+      return;
+
+    }
+    else {
+      next();
+    }
+  });
 });
 
 
@@ -103,7 +112,9 @@ productRouter.delete('/:id', function(req, res){
       res.status(500).end();
     });
   }
-  res.json("parameter is not an integer").status(500).end();
+  else {
+    res.json("parameter is not an integer").status(500).end();
+  }
 });
 
 productRouter.delete('/name/:name', function(req, res){
@@ -138,7 +149,9 @@ productRouter.put('/:id', function(req, res){
     return;
     });
   }
-  res.json("parameter is not an integer").status(500).end();
+  else {
+    res.json("parameter is not an integer").status(500).end();
+  }
 });
 
 module.exports = productRouter;
