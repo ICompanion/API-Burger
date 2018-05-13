@@ -1,29 +1,26 @@
 const authenticateController = function(){ };
-const bddController = require('./bdd');
+const bddController = require('./db');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 const CookieParser = require('cookie-parser');
 
 authenticateController.signIn = function(values, callback){
   bddController.start();
-  bddController.executeQuery('select nom,identifiant from employe where employe.identifiant = $1 and employe.password = $2 union select nom,identifiant from patient where patient.identifiant = $1 and patient.password = $2', values, function(data, state){
+  bddController.executeQuery('select name from admin where admin.name = $1 and admin.password = $2;', values, function(data, state){
     bddController.stop();
-    var name = "none";
-    var id = "none";
     data = JSON.parse(data);
 
     if(data.length === 0)
     {
       state = false;
     } else {
-      name = data[0].nom;
-      id = data[0].identifiant;
+      state = true;
     }
-    callback(state,name,id);
+    callback(state);
   });
 };
 
-authenticateController.connect = function(req, res, result, name, id){
+authenticateController.connect = function(req, res, result){
   if (result === false) {
     res.json({ success: false, message: 'Authentication failed. User not found.' }).status(404).end();
   }
@@ -86,5 +83,4 @@ authenticateController.check = function(req, res, callback){
   }
 };
 
-module.exports = authenticateController;
 module.exports = authenticateController;

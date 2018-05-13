@@ -44,15 +44,8 @@ billRouter.get('/:id', function(req, res){
 
 billRouter.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
-  authenticateController.check(req, res, function(status){
-    if(status === false){
-      return;
-
-    }
-    else {
-      next();
-    }
-  });
+  authenticateController.check(req, res);
+  next();
 });
 
 billRouter.post('/create', function(req, res){
