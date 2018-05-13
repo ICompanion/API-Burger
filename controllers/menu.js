@@ -84,9 +84,9 @@ menuController.removeProduct = function(values, callback){
 };
 
 menuController.deleteById = function(values, callback){
-  bddController.executeQuery('delete from menu where id = $1', values,
+  bddController.executeQuery('delete from menu where id = $1;', values,
                               function(result, state){
-    bddController.executeQuery('delete from menu_product where menu_id = $1', [values],
+    bddController.executeQuery('delete from menu_product where menu_id = $1;', values,
                                 function(result, state){
       callback(state);
     });

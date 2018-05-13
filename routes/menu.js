@@ -178,7 +178,7 @@ menuRouter.delete('/:menu_id/remove/product/:product_id', function(req, res){
 menuRouter.delete('/:id', function(req, res){
   if(Number.parseInt(req.params.id))
   {
-    menuController.deleteById(req.params.id, function(state){
+    menuController.deleteById([req.params.id], function(state){
       if(state === true)
       {
         res.json(state).status(200).end();
