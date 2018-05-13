@@ -6,59 +6,56 @@ const menuController = function(){};
 
 menuController.getAll = function(callback){
   var data;
-  bddController.start();
   bddController.executeQuery('select * from menu', '', function(result){
     data = result;
-    bddController.stop();
     callback(data);
   });
 };
 
 menuController.getByName = function(name, callback){
   var data;
-  bddController.start();
   bddController.executeQuery('select * from menu where name = $1', [name],
                               function(result){
     data = result;
-    bddController.stop();
     callback(data);
   });
 };
 
 menuController.getById = function(id, callback){
   var data;
-  bddController.start();
   bddController.executeQuery('select * from menu where id = $1', [id],
                               function(result){
     data = result;
-    bddController.stop();
+    callback(data);
+  });
+};
+
+menuController.getProducts = function(id, callback){
+  var data;
+  bddController.executeQuery('select * from product, menu_product where product.id = menu_product.product_id and menu_product.menu_id = $1 ', [id],
+                              function(result){
+    data = result;
     callback(data);
   });
 };
 
 menuController.create = function(values, callback){
-  bddController.start();
   bddController.executeQuery('insert into menu(name, price, active) values($1, $2, $3)',
                                values, function(result, state){
-    bddController.stop();
     callback(state);
   });
 };
 
 menuController.addPromotion = function(values, callback){
-  bddController.start();
   bddController.executeQuery('update menu set promotion_id = $2 where id = $1',
                                values, function(result, state){
-    bddController.stop();
     callback(state);
   });
 };
 
 menuController.addProduct = function(values, callback){
-  bddController.start();
   bddController.executeQuery('insert into menu_product(menu_id, product_id) values($1, $2)',
                                values, function(result, state){
-    bddController.stop();
     callback(state);
   });
 };
@@ -74,29 +71,23 @@ menuController.update = function(columns, values, id, callback) {
   }
   text = text.slice(0,-2) + ' where id = ' + id;
 
-  bddController.start();
   bddController.executeQuery(text, values, function(result, state){
-    bddController.stop();
     callback(state);
   });
 };
 
 menuController.removeProduct = function(values, callback){
-  bddController.start();
   bddController.executeQuery('delete from menu_product where product_id = $2 and menu_id = $1', [values],
                               function(result, state){
-      bddController.stop();
       callback(state);
   });
 };
 
 menuController.deleteById = function(values, callback){
-  bddController.start();
   bddController.executeQuery('delete from menu where id = $1', values,
                               function(result, state){
     bddController.executeQuery('delete from menu_product where menu_id = $1', [values],
                                 function(result, state){
-      bddController.stop();
       callback(state);
     });
   });

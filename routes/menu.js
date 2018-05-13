@@ -53,6 +53,24 @@ menuRouter.get('/:id', function(req, res){
   }
 });
 
+menuRouter.get('/:id/products', function(req, res){
+  if(Number.parseInt(req.params.id))
+  {
+    menuController.getProducts(req.params.id, function(data){
+      data = JSON.parse(data);
+      if(data.length !== 0){
+
+        res.json(data).status(200).end();
+        return;
+      }
+      res.status(404).end();
+      return;
+    });
+  }
+  else {
+    res.json("parameter is not an integer").status(500).end();
+  }
+});
 
 menuRouter.use(function(req, res, next) {
   // check header or url parameters or post parameters for token

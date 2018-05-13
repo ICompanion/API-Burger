@@ -15,16 +15,17 @@ bddController.start = function(){
     if(err)
     {
       console.log("Erreur lors de la connection: " +err);
-      return;
+      return false;
     }
     console.log('Connecté à Burger');
+    return true;
   });
 };
 
 
 bddController.executeQuery = function(text, values, callback){
-    var state = false;
-
+    var state = bddController.start();
+    
     bddController.makeQuery(text, values);
     client.query(query, function(err, res){
       if(err){
@@ -36,6 +37,7 @@ bddController.executeQuery = function(text, values, callback){
       console.log('Requête executée');
       data = JSON.stringify(res.rows);
       state = true;
+      bddController.stop();
       callback(data, state);
     });
 };
