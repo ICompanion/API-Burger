@@ -11,7 +11,7 @@ billRouter.use(bodyParser.json());
 
 billRouter.get('/all', function(req, res){
   billController.getAll(function(data, state){
-    if(state === false) res.status(500).end(); return;
+    if(state === false) {res.status(500).end(); return;}
 
     data = JSON.parse(data);
     if(data.length !== 0){
@@ -27,7 +27,7 @@ billRouter.get('/:id', function(req, res){
   if(Number.parseInt(req.params.id))
   {
     billController.getById(req.params.id, function(data, state){
-      if(state === false) res.status(500).end(); return;
+    if(state === false) {res.status(500).end(); return;}
 
       data = JSON.parse(data);
       if(data.length !== 0){
@@ -48,7 +48,7 @@ billRouter.get('/:id/products', function(req, res){
   if(Number.parseInt(req.params.id))
   {
     billController.getProducts(req.params.id, function(data, state){
-      if(state === false) res.status(500).end(); return;
+    if(state === false) {res.status(500).end(); return;}
 
       data = JSON.parse(data);
       if(data.length !== 0){
@@ -69,7 +69,7 @@ billRouter.get('/:id/price', function(req, res){
   if(Number.parseInt(req.params.id))
   {
     billController.getPrice(req.params.id, function(data, state){
-      if(state === false) res.status(500).end(); return;
+    if(state === false) {res.status(500).end(); return;}
 
       data = JSON.parse(data);
       if(data.length !== 0){

@@ -27,7 +27,7 @@ bddController.start = function(callback){
 
 bddController.executeQuery = function(text, values, callback){
     bddController.start(function(state) {
-      if(state === false) callback(undefined, state);console.log(state); return;
+      if(state === false) {callback(undefined, state);console.log(state); return;}
       bddController.makeQuery(text, values);
       client.query(query, function(err, res){
         if(err){

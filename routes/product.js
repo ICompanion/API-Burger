@@ -11,7 +11,7 @@ productRouter.use(bodyParser.json());
 
 productRouter.get('/all', function(req, res){
   productController.getAll(function(data, state){
-    if(state === false) res.status(500).end(); return;
+    if(state === false) {res.status(500).end(); return;}
     data = JSON.parse(data);
     if(data.length !== 0){
 
@@ -26,7 +26,7 @@ productRouter.get('/all', function(req, res){
 
 productRouter.get('/name/:name', function(req, res){
   productController.getByName(req.params.name, function(data, state){
-    if(state === false) res.status(500).end(); return;
+    if(state === false) {res.status(500).end(); return;}
     data = JSON.parse(data);
     if(data.length !== 0){
 
@@ -42,7 +42,7 @@ productRouter.get('/:id', function(req, res){
   if(Number.parseInt(req.params.id))
   {
     productController.getById(req.params.id, function(data, state){
-      if(state === false) res.status(500).end(); return;
+    if(state === false) {res.status(500).end(); return;}
       data = JSON.parse(data);
       if(data.length !== 0){
 
@@ -62,7 +62,7 @@ productRouter.get('/:id', function(req, res){
 
 productRouter.get('/vegan', function(req, res){
   productController.getVegan(function(data, state){
-    if(state === false) res.status(500).end(); return;
+    if(state === false) {res.status(500).end(); return;}
 
     data = JSON.parse(data);
     if(data.length !== 0){
