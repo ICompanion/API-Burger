@@ -25,9 +25,31 @@ billController.getById = function(id, callback){
   });
 };
 
+billController.getProducts = function(id, callback){
+  var data;
+  bddController.start();
+  bddController.executeQuery('select * from product, bill_product where product.id = bill_product.product_id and bill_product.bill_id = $1', [id],
+                              function(result){
+    data = result;
+    bddController.stop();
+    callback(data);
+  });
+};
+
+billController.getPrice = function(id, callback){
+  var data;
+  bddController.start();
+  bddController.executeQuery('select price from bill where id = $1', [id],
+                              function(result){
+    data = result;
+    bddController.stop();
+    callback(data);
+  });
+};
+
 billController.create = function(values, callback){
   bddController.start();
-  bddController.executeQuery('insert into bill(price, status) values($1, $2)',
+  bddController.executeQuery('insert into bill(status) values($1)',
                                values, function(result, state){
     bddController.stop();
     callback(state);
@@ -36,19 +58,25 @@ billController.create = function(values, callback){
 
 billController.addProduct = function(values, callback){
   bddController.start();
-  bddController.executeQuery('insert into bill_product(bill_id, product_id) values($1, $2)',
-                               values, function(result, state){
-    bddController.stop();
-    callback(state);
+  bddController.executeQuery('insert into bill_product(bill_id, product_id) values($1, $2);', values,
+                              function(result, state){
+    bddController.executeQuery('update bill set price = price + (select product.price from product where id = $2) where id  = $1;', values,
+                                function(result, state){
+      bddController.stop();
+      callback(state);
+    });
   });
 };
 
 billController.addMenu = function(values, callback){
   bddController.start();
-  bddController.executeQuery('insert into bill_menu(bill_id, menu_id) values($1, $2)',
-                               values, function(result, state){
-    bddController.stop();
-    callback(state);
+  bddController.executeQuery('insert into bill_menu(bill_id, menu_id) values($1, $2);', values,
+                             function(result, state){
+   bddController.executeQuery('update bill set price = price + (select menu.price from menu where id = $2) where id  = $1;', values,
+                               function(result, state){
+     bddController.stop();
+     callback(state);
+   });
   });
 };
 

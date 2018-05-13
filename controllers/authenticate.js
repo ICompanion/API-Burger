@@ -60,13 +60,11 @@ authenticateController.check = function(req, res, callback){
         console.log(err);
         res.json({ success: false, message: 'Failed to authenticate token.' }).status(400).end();
         callback(false);
-        return;
       }
       else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;
         callback(true);
-        return;
       }
     });
   }

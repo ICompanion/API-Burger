@@ -75,7 +75,6 @@ productRouter.use(function(req, res, next) {
   authenticateController.check(req, res, function(status){
     if(status === false){
       return;
-
     }
     else {
       next();

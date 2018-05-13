@@ -17,7 +17,6 @@ billRouter.get('/all', function(req, res){
       res.json(data).status(200).end();
       return;
     }
-
     res.status(404).end();
   });
 });
@@ -41,15 +40,58 @@ billRouter.get('/:id', function(req, res){
   }
 });
 
+billRouter.get('/:id/products', function(req, res){
+  if(Number.parseInt(req.params.id))
+  {
+    billController.getProducts(req.params.id, function(data){
+      data = JSON.parse(data);
+      if(data.length !== 0){
+
+        res.json(data).status(200).end();
+        return;
+      }
+      res.status(404).end();
+    });
+    return;
+  }
+  else {
+    res.json("parameter is not an integer").status(500).end();
+  }
+});
+
+billRouter.get('/:id/price', function(req, res){
+  if(Number.parseInt(req.params.id))
+  {
+    billController.getPrice(req.params.id, function(data){
+      data = JSON.parse(data);
+      if(data.length !== 0){
+
+        res.json(data).status(200).end();
+        return;
+      }
+      res.status(404).end();
+    });
+    return;
+  }
+  else {
+    res.json("parameter is not an integer").status(500).end();
+  }
+});
 
 billRouter.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
-  authenticateController.check(req, res);
-  next();
+  authenticateController.check(req, res, function(status){
+    if(status === false){
+      return;
+    }
+    else {
+      next();
+    }
+  });
 });
 
 billRouter.post('/create', function(req, res){
-  billController.create([req.body.price, req.body.status],
+  billController.create([req.body.status],
                             function(state){
     if(state === true)
     {
