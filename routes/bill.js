@@ -49,7 +49,7 @@ billRouter.use(function(req, res, next) {
 });
 
 billRouter.post('/create', function(req, res){
-  billController.create([req.body.id, req.body.price, req.body.status],
+  billController.create([req.body.price, req.body.status],
                             function(state){
     if(state === true)
     {

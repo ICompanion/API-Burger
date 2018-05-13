@@ -58,7 +58,7 @@ promotionRouter.use(function(req, res, next) {
 });
 
 promotionRouter.post('/create', function(req, res){
-  promotionController.create([req.body.id, req.body.reduction, req.body.active],
+  promotionController.create([req.body.reduction, req.body.active],
                             function(state){
     if(state === true)
     {

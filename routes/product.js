@@ -87,7 +87,7 @@ productRouter.use(function(req, res, next) {
 productRouter.post('/create', function(req, res){
   productController.create([req.body.name, req.body.type, req.body.price,
                             req.body.calories, req.body.veg,
-                            req.body.disponibility, req.body.promotion],
+                            req.body.disponibility],
                             function(state){
     if(state === true)
     {

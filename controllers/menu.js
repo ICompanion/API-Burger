@@ -38,7 +38,7 @@ menuController.getById = function(id, callback){
 
 menuController.create = function(values, callback){
   bddController.start();
-  bddController.executeQuery('insert into menu values($1, $2, $3, $4, $5)',
+  bddController.executeQuery('insert into menu(name, price, active) values($1, $2, $3)',
                                values, function(result, state){
     bddController.stop();
     callback(state);
@@ -47,7 +47,7 @@ menuController.create = function(values, callback){
 
 menuController.addProduct = function(values, callback){
   bddController.start();
-  bddController.executeQuery('insert into menu_product values($1, $2)',
+  bddController.executeQuery('insert into menu_product(menu_id, product_id) values($1, $2)',
                                values, function(result, state){
     bddController.stop();
     callback(state);

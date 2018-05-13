@@ -27,7 +27,7 @@ billController.getById = function(id, callback){
 
 billController.create = function(values, callback){
   bddController.start();
-  bddController.executeQuery('insert into bill values($1, $2, $3)',
+  bddController.executeQuery('insert into bill(price, status) values($1, $2)',
                                values, function(result, state){
     bddController.stop();
     callback(state);
@@ -36,7 +36,7 @@ billController.create = function(values, callback){
 
 billController.addProduct = function(values, callback){
   bddController.start();
-  bddController.executeQuery('insert into bill_product values($1, $2)',
+  bddController.executeQuery('insert into bill_product(bill_id, product_id) values($1, $2)',
                                values, function(result, state){
     bddController.stop();
     callback(state);
@@ -45,7 +45,7 @@ billController.addProduct = function(values, callback){
 
 billController.addMenu = function(values, callback){
   bddController.start();
-  bddController.executeQuery('insert into bill_menu values($1, $2)',
+  bddController.executeQuery('insert into bill_menu(bill_id, menu_id) values($1, $2)',
                                values, function(result, state){
     bddController.stop();
     callback(state);

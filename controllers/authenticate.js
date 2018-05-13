@@ -52,7 +52,6 @@ authenticateController.check = function(req, res, callback){
   } else {
     console.log("Not defined");
   }
-  console.log(token);
   // decode token
   if (token) {
     // verifies secret and checks exp
@@ -66,8 +65,7 @@ authenticateController.check = function(req, res, callback){
       else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;
-        res.json({ success: true, message: 'Authentication passed.' }).status(400).end();
-        callback(false);
+        callback(true);
         return;
       }
     });

@@ -49,7 +49,7 @@ productController.getVegan = function(callback){
 
 productController.create = function(values, callback){
   bddController.start();
-  bddController.executeQuery('insert into product values($1, $2, $3, $4, $5, $6, $7)',
+  bddController.executeQuery('insert into product(name, product_type, price, calories, veg, disponibility) values($1, $2, $3, $4, $5, $6)',
                                values, function(result, state){
     bddController.stop();
     callback(state);

@@ -68,8 +68,7 @@ menuRouter.use(function(req, res, next) {
 });
 
 menuRouter.post('/create', function(req, res){
-  menuController.create([req.body.id,req.body.name, req.body.price, req.body.active,
-                            req.body.promotion_id],
+  menuController.create([req.body.name, req.body.price, req.body.active],
                             function(state){
     if(state === true)
     {
@@ -119,7 +118,7 @@ menuRouter.put('/:id', function(req, res){
   }
 });
 
-menuRouter.delete('/:menu_id/remove/product//:product_id', function(req, res){
+menuRouter.delete('/:menu_id/remove/product/:product_id', function(req, res){
   if(Number.parseInt(req.params.menu_id) && Number.parseInt(req.params.product_id))
   {
   menuController.removeProduct([req.params.menu_id, req.params.product_id], function(state){
