@@ -56,6 +56,15 @@ productController.create = function(values, callback){
   });
 };
 
+productController.addPromotion = function(values, callback){
+  bddController.start();
+  bddController.executeQuery('update product set promotion_id = $2 where id = $1',
+                               values, function(result, state){
+    bddController.stop();
+    callback(state);
+  });
+};
+
 productController.deleteById = function(values, callback){
   bddController.start();
   bddController.executeQuery('delete from product where id = $1', [values],

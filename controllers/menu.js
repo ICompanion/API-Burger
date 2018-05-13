@@ -45,6 +45,15 @@ menuController.create = function(values, callback){
   });
 };
 
+menuController.addPromotion = function(values, callback){
+  bddController.start();
+  bddController.executeQuery('update menu set promotion_id = $2 where id = $1',
+                               values, function(result, state){
+    bddController.stop();
+    callback(state);
+  });
+};
+
 menuController.addProduct = function(values, callback){
   bddController.start();
   bddController.executeQuery('insert into menu_product(menu_id, product_id) values($1, $2)',

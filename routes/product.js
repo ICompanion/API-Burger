@@ -99,6 +99,19 @@ productRouter.post('/create', function(req, res){
   });
 });
 
+productRouter.post('/:id/promotion/:id_promotion', function(req, res){
+  productController.addPromotion([req.params.id, req.params.id_promotion],
+                            function(state){
+    if(state === true)
+    {
+      res.json(state).status(200).end();
+      return;
+    }
+
+    res.status(500).end();
+  });
+});
+
 productRouter.delete('/:id', function(req, res){
   if(Number.parseInt(req.params.id))
   {

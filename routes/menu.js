@@ -80,6 +80,19 @@ menuRouter.post('/create', function(req, res){
   });
 });
 
+menuRouter.post('/:id/promotion/:id_promotion', function(req, res){
+  menuController.addPromotion([req.params.id, req.params.id_promotion],
+                            function(state){
+    if(state === true)
+    {
+      res.json(state).status(200).end();
+      return;
+    }
+
+    res.status(500).end();
+  });
+});
+
 menuRouter.post('/add/product', function(req, res){
   menuController.addProduct([req.body.menu_id, req.body.product_id],
                             function(state){

@@ -27,7 +27,7 @@ promotionController.getById = function(id, callback){
 
 promotionController.create = function(values, callback){
   bddController.start();
-  bddController.executeQuery('insert into promotion values($1, $2, $3)',
+  bddController.executeQuery('insert into promotion(reduction, active) values($1, $2)',
                                values, function(result, state){
     bddController.stop();
     callback(state);
