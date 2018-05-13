@@ -6,36 +6,36 @@ const menuController = function(){};
 
 menuController.getAll = function(callback){
   var data;
-  bddController.executeQuery('select * from menu', '', function(result){
+  bddController.executeQuery('select * from menu', '', function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 
 menuController.getByName = function(name, callback){
   var data;
   bddController.executeQuery('select * from menu where name = $1', [name],
-                              function(result){
+                              function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 
 menuController.getById = function(id, callback){
   var data;
   bddController.executeQuery('select * from menu where id = $1', [id],
-                              function(result){
+                              function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 
 menuController.getProducts = function(id, callback){
   var data;
   bddController.executeQuery('select * from product, menu_product where product.id = menu_product.product_id and menu_product.menu_id = $1 ', [id],
-                              function(result){
+                              function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 

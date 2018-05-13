@@ -10,7 +10,9 @@ const menuRouter = express.Router();
 menuRouter.use(bodyParser.json());
 
 menuRouter.get('/all', function(req, res){
-  menuController.getAll(function(data){
+  menuController.getAll(function(data, state){
+    if(state === false) res.status(500).end(); return;
+
     data = JSON.parse(data);
     if(data.length !== 0){
 
@@ -23,7 +25,9 @@ menuRouter.get('/all', function(req, res){
 });
 
 menuRouter.get('/name/:name', function(req, res){
-  menuController.getByName(req.params.name, function(data){
+  menuController.getByName(req.params.name, function(data, state){
+    if(state === false) res.status(500).end(); return;
+
     data = JSON.parse(data);
     if(data.length !== 0){
 
@@ -37,7 +41,9 @@ menuRouter.get('/name/:name', function(req, res){
 menuRouter.get('/:id', function(req, res){
   if(Number.parseInt(req.params.id))
   {
-    menuController.getById(req.params.id, function(data){
+    menuController.getById(req.params.id, function(data, state){
+      if(state === false) res.status(500).end(); return;
+
       data = JSON.parse(data);
       if(data.length !== 0){
 
@@ -56,7 +62,9 @@ menuRouter.get('/:id', function(req, res){
 menuRouter.get('/:id/products', function(req, res){
   if(Number.parseInt(req.params.id))
   {
-    menuController.getProducts(req.params.id, function(data){
+    menuController.getProducts(req.params.id, function(data, state){
+      if(state === false) res.status(500).end(); return;
+
       data = JSON.parse(data);
       if(data.length !== 0){
 

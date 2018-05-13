@@ -6,18 +6,18 @@ const promotionController = function(){};
 
 promotionController.getAll = function(callback){
   var data;
-  bddController.executeQuery('select * from promotion', '', function(result){
+  bddController.executeQuery('select * from promotion', '', function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 
 promotionController.getById = function(id, callback){
   var data;
   bddController.executeQuery('select * from promotion where id = $1', [id],
-                              function(result){
+                              function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 

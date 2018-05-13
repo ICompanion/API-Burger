@@ -10,23 +10,23 @@ const promotionRouter = express.Router();
 promotionRouter.use(bodyParser.json());
 
 promotionRouter.get('/all', function(req, res){
-  promotionController.getAll(function(data){
+  promotionController.getAll(function(data, state){
+    if(state === false) res.status(500).end(); return;
     data = JSON.parse(data);
     if(data.length !== 0){
 
       res.json(data).status(200).end();
       return;
     }
-
     res.status(404).end();
   });
 });
 
 promotionRouter.get('/:id', function(req, res){
-
   if(Number.parseInt(req.params.id))
   {
-    promotionController.getById(req.params.id, function(data){
+    promotionController.getById(req.params.id, function(data, state){
+      if(state === false) res.status(500).end(); return;
       data = JSON.parse(data);
       if(data.length !== 0){
 

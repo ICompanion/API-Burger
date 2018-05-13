@@ -6,36 +6,36 @@ const productController = function(){ };
 
 productController.getAll = function(callback){
   var data;
-  bddController.executeQuery('select * from product', '', function(result){
+  bddController.executeQuery('select * from product', '', function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 
 productController.getByName = function(name, callback){
   var data;
   bddController.executeQuery('select * from product where name = $1', [name],
-                              function(result){
+                              function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 
 productController.getById = function(id, callback){
   var data;
   bddController.executeQuery('select * from product where id = $1', [id],
-                              function(result){
+                              function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 
 productController.getVegan = function(callback){
   var data;
   bddController.executeQuery('select * from product where veg = true', '',
-                              function(result){
+                              function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 

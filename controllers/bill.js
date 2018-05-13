@@ -6,43 +6,43 @@ const billController = function(){};
 
 billController.getAll = function(callback){
   var data;
-  bddController.executeQuery('select * from bill', '', function(result){
+  bddController.executeQuery('select * from bill', '', function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 
 billController.getById = function(id, callback){
   var data;
   bddController.executeQuery('select * from bill where id = $1', [id],
-                              function(result){
+                              function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 
 billController.getProducts = function(id, callback){
   var data;
   bddController.executeQuery('select * from product, bill_product where product.id = bill_product.product_id and bill_product.bill_id = $1', [id],
-                              function(result){
+                              function(result,state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 
 billController.getPrice = function(id, callback){
   var data;
   bddController.executeQuery('select price from bill where id = $1', [id],
-                              function(result){
+                              function(result, state){
     data = result;
-    callback(data);
+    callback(data, state);
   });
 };
 
 billController.create = function(values, callback){
   bddController.executeQuery('insert into bill(status) values($1)',
                                values, function(result, state){
-    callback(state);
+   callback(state);
   });
 };
 
