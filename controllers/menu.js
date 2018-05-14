@@ -77,7 +77,7 @@ menuController.update = function(columns, values, id, callback) {
 };
 
 menuController.removeProduct = function(values, callback){
-  bddController.executeQuery('delete from menu_product where product_id = $2 and menu_id = $1', [values],
+  bddController.executeQuery('delete from menu_product where product_id = $2 and menu_id = $1;', values,
                               function(result, state){
       callback(state);
   });
