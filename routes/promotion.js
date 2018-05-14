@@ -9,6 +9,27 @@ const promotionRouter = express.Router();
 
 promotionRouter.use(bodyParser.json());
 
+/**
+ * @api {get} /promotion/all Request All Promotions
+ * @apiName getAll
+ * @apiGroup Promotions
+ *
+ * @apiSuccess {int} id of the Product.
+ * @apiSuccess {int} reduction  Value of the promotion.
+ * @apiSuccess {boolean} active  Status of the promotion.
+ * @apiSuccessExample Success-Response:
+ *     {
+        "id": 1,
+        "reduction": 5,
+        "active": true
+    }
+ *
+ * @apiError  (Error 500) False
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     False
+ */
 promotionRouter.get('/all', function(req, res){
   promotionController.getAll(function(data, state){
     if(state === false) {res.status(500).end(); return;}
@@ -22,6 +43,37 @@ promotionRouter.get('/all', function(req, res){
   });
 });
 
+/**
+ * @api {get} /promotion/:id Request a Promotion
+ * @apiName getById
+ * @apiGroup Promotions
+ *
+ * @apiParam {int} id Promotions unique ID.
+ *
+ * @apiSuccess {int} id of the Promotions.
+ * @apiSuccess {int} reduction  Value of the Promotions.
+ * @apiSuccess {boolean} active  Status of the Promotions.
+ * @apiSuccessExample Success-Response:
+ *     {
+        "id": 1,
+        "reduction": 5,
+        "active": true
+    }
+ *
+ * @apiError  (Error 500) False
+ * @apiError  (Error 500) parameter is not an integer
+ * @apiError  (Error 404) False
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     False
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     False
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal server error
+ *     "parameter is not an integer"
+ */
 promotionRouter.get('/:id', function(req, res){
   if(Number.parseInt(req.params.id))
   {
@@ -57,6 +109,25 @@ promotionRouter.use(function(req, res, next) {
   });
 });
 
+
+/**
+ * @api {post} /promotion/create Create a Promotion
+ * @apiName create
+ * @apiGroup Promotions
+ *
+ * @apiParam {int} reduction Value of the Promotions.
+ * @apiParam {boolean} active Status of the Promotions.
+ *
+ * @apiSuccess {boolean} true
+ * @apiSuccessExample Success-Response:
+ *     true
+ *
+ * @apiError  (Error 500) False
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal server error
+ *     False
+ */
 promotionRouter.post('/create', function(req, res){
   promotionController.create([req.body.reduction, req.body.active],
                             function(state){
@@ -70,6 +141,33 @@ promotionRouter.post('/create', function(req, res){
   });
 });
 
+/**
+ * @api {put} /promotion/create Update a Promotion
+ * @apiName update
+ * @apiGroup Promotions
+ *
+ * @apiParam {int} id unique id of the Promotion
+ * @apiParam {none} variable depend of the user:
+ *     He can set the column and the value that he want to update in promotions
+ *
+ * @apiSuccess {boolean} true
+ * @apiSuccessExample Success-Response:
+ *     true
+ *
+ * @apiError  (Error 500) False
+ * @apiError  (Error 500) parameter is not an integer
+ * @apiError  (Error 404) False
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     False
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     False
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal server error
+ *     "parameter is not an integer"
+ */
 promotionRouter.put('/:id', function(req, res){
   if(Number.parseInt(req.params.id))
   {
@@ -96,6 +194,31 @@ promotionRouter.put('/:id', function(req, res){
   }
 });
 
+/**
+ * @api {delete} /promotion/:id Delete a Promotion
+ * @apiName delete
+ * @apiGroup Promotions
+ *
+ * @apiParam {int} id unique id of the Promotion
+ *
+ * @apiSuccess {boolean} true
+ * @apiSuccessExample Success-Response:
+ *     true
+ *
+ * @apiError  (Error 500) False
+ * @apiError  (Error 500) parameter is not an integer
+ * @apiError  (Error 404) False
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     False
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     False
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal server error
+ *     "parameter is not an integer"
+ */
 promotionRouter.delete('/:id', function(req, res){
   if(Number.parseInt(req.params.id))
   {
